@@ -1,0 +1,65 @@
+{
+  "name": "agent-dep-shield",
+  "version": "1.0.0",
+  "description": "Guard AI agent dependency installations with intelligent security checks",
+  "main": "dist/index.js",
+  "bin": {
+    "agent-dep-shield": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "ci": "npm run lint && npm run build",
+    "prepublishOnly": "npm run ci"
+  },
+  "keywords": [
+    "ai",
+    "security",
+    "dependency",
+    "npm",
+    "pip",
+    "slopsquat",
+    "typosquat",
+    "supply-chain",
+    "code-security",
+    "ai-agent",
+    "mcp",
+    "guard"
+  ],
+  "author": "Sulthonzh",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "undici": "^5.20.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sulthonzh/agent-dep-shield.git"
+  },
+  "homepage": "https://github.com/sulthonzh/agent-dep-shield#readme",
+  "bugs": {
+    "url": "https://github.com/sulthonzh/agent-dep-shield/issues"
+  }
+}
