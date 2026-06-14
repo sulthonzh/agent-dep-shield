@@ -2,7 +2,6 @@
 
 import { program } from './cli';
 
-// Run the CLI if this file is executed directly
 if (require.main === module) {
   program.parse();
 }

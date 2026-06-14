@@ -25,7 +25,6 @@ export class PackageAnalyzer {
         scriptTypes: []
       } as PackageInfo;
 
-      // Check if package exists
       const npmExists = await this.checkNpmPackage(packageName);
       if (npmExists.exists) {
         info.exists = true;
