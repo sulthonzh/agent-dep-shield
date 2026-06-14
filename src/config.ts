@@ -48,36 +48,31 @@ export class ConfigManager {
 
   private mergeConfig(defaultConfig: Config, userConfig: any): Config {
     const merged = { ...defaultConfig };
-    
-    // Merge risk thresholds
+
     if (userConfig.riskThresholds) {
       merged.riskThresholds = { ...merged.riskThresholds, ...userConfig.riskThresholds };
     }
-    
-    // Merge checks
+
     if (userConfig.checks) {
       merged.checks = { ...merged.checks, ...userConfig.checks };
     }
-    
-    // Merge lists (concatenate, remove duplicates)
+
     if (userConfig.allowList) {
       merged.allowList = [...new Set([...merged.allowList, ...userConfig.allowList])];
     }
-    
+
     if (userConfig.blockList) {
       merged.blockList = [...new Set([...merged.blockList, ...userConfig.blockList])];
     }
-    
-    // Merge registries
+
     if (userConfig.registries) {
       merged.registries = { ...merged.registries, ...userConfig.registries };
     }
-    
-    // Add custom rules if they exist
+
     if (userConfig.customRules) {
       merged.customRules = userConfig.customRules;
     }
-    
+
     return merged;
   }
 
@@ -98,35 +93,32 @@ export class ConfigManager {
     const errors: string[] = [];
     const config = this.getConfig();
 
-    // Validate risk thresholds
     if (config.riskThresholds.block < 0 || config.riskThresholds.block > 100) {
       errors.push('Block threshold must be between 0 and 100');
     }
-    
+
     if (config.riskThresholds.warn < 0 || config.riskThresholds.warn > 100) {
       errors.push('Warn threshold must be between 0 and 100');
     }
-    
+
     if (config.riskThresholds.autoApprove < 0 || config.riskThresholds.autoApprove > 100) {
       errors.push('Auto-approve threshold must be between 0 and 100');
     }
 
-    // Validate threshold ordering
     if (config.riskThresholds.autoApprove >= config.riskThresholds.warn) {
       errors.push('Auto-approve threshold must be less than warn threshold');
     }
-    
+
     if (config.riskThresholds.warn >= config.riskThresholds.block) {
       errors.push('Warn threshold must be less than block threshold');
     }
 
-    // Validate custom rules
     if (config.customRules) {
       config.customRules.forEach((rule, index) => {
         if (!rule.name || !rule.pattern || typeof rule.weight !== 'number') {
           errors.push(`Custom rule ${index}: missing required fields (name, pattern, weight)`);
         }
-        
+
         if (rule.weight < 0 || rule.weight > 100) {
           errors.push(`Custom rule ${rule.name}: weight must be between 0 and 100`);
         }
