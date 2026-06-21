@@ -86,11 +86,25 @@ export class PackageAnalyzer {
   }
 
   calculateRiskScore(info: PackageInfo): RiskScore {
+    // Non-existent packages are the highest risk (slopsquatting)
+    if (!info.exists) {
+      return {
+        overall: 100,
+        breakdown: {
+          existence: 100,
+          popularity: 100,
+          scripts: 0,
+          vulnerabilities: 100,
+          age: 100
+        }
+      };
+    }
+
     const breakdown = {
-      existence: info.exists ? 30 : 100,
+      existence: 30,
       popularity: this.calculatePopularityScore(info.downloads),
       scripts: info.hasScripts ? 25 : 0,
-      vulnerabilities: 0, // Placeholder
+      vulnerabilities: this.calculateVulnerabilityScore(info.vulnerabilities),
       age: this.calculateAgeScore(info.age)
     };
 
@@ -107,6 +121,17 @@ export class PackageAnalyzer {
     };
   }
 
+  private calculateVulnerabilityScore(vulns?: { count: number; critical: number; high: number }): number {
+    if (!vulns || vulns.count === 0) return 0;
+
+    let score = 0;
+    score += vulns.critical * 30;
+    score += vulns.high * 15;
+    score += Math.max(0, (vulns.count - vulns.critical - vulns.high) * 5);
+
+    return Math.min(100, score);
+  }
+
   private calculatePopularityScore(downloads?: string): number {
     if (!downloads || downloads === 'unknown') return 50;
     
@@ -115,7 +140,7 @@ export class PackageAnalyzer {
       if (downloads.includes('M')) {
         return num > 10 ? 0 : Math.round(20 - (num * 2));
       } else if (downloads.includes('K')) {
-        return num > 100 ? 0 : Math.round(20 - (num / 5));
+        return num > 100 ? 0 : Math.round(20 - (num / 10));
       }
     }
     
@@ -131,7 +156,7 @@ export class PackageAnalyzer {
     if (!age) return 10;
     
     let score = 0;
-    if (age.years > 5) score = 0;
+    if (age.years >= 5) score = 0;
     else if (age.years > 2) score = 5;
     else if (age.years > 1) score = 10;
     else score = 15;

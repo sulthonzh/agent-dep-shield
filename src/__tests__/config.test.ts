@@ -75,9 +75,9 @@ describe('ConfigManager', () => {
     it('should detect invalid threshold ordering', () => {
       const invalidConfig = {
         riskThresholds: {
-          block: 50,
-          warn: 40, // Invalid: warn should be less than block
-          autoApprove: 30
+          block: 30,
+          warn: 60, // Invalid: warn > block
+          autoApprove: 40
         }
       };
       writeFileSync(testConfigPath, JSON.stringify(invalidConfig));

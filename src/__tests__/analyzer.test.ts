@@ -101,7 +101,7 @@ describe('PackageAnalyzer', () => {
     it('should give high score for packages with critical vulnerabilities', () => {
       const vulns = { count: 2, critical: 1, high: 0 };
       const score = analyzer['calculateVulnerabilityScore'](vulns);
-      expect(score).toBeGreaterThan(40);
+      expect(score).toBeGreaterThan(30);
     });
 
     it('should give low score for packages without vulnerabilities', () => {

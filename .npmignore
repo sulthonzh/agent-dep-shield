@@ -1,0 +1,17 @@
+# Source maps — not needed in published package
+*.map
+
+# Tests
+src/__tests__/
+**/*.test.ts
+**/*.test.js
+jest.config.js
+
+# Config
+tsconfig.json
+.eslintrc.js
+renovate.json
+
+# GitHub
+.github/
+.changeset/
