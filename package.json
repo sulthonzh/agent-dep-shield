@@ -64,5 +64,6 @@
   "homepage": "https://github.com/sulthonzh/agent-dep-shield#readme",
   "bugs": {
     "url": "https://github.com/sulthonzh/agent-dep-shield/issues"
-  }
+  },
+  "types": "dist/index.d.ts"
 }
